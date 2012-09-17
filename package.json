@@ -7,6 +7,10 @@
     "reggie": "./client.js",
     "reggie-server": "./server.js"
   },
+  "repository": { 
+    "type" : "git",
+    "url" : "http://github.com/mbevoort/node-reggie.git"
+  } , 
   "dependencies": {
     "optimist": "0.3.4",
     "restify": "1.4.4",
