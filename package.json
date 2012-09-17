@@ -1,0 +1,28 @@
+{
+  "author": "Mike Brevoort <mike@brevoort.com>",
+  "name": "reggie",
+  "description": "An experimental light weight alternative to a full blown npm registry",
+  "version": "0.0.0",
+  "bin": {
+    "reggie": "./client.js",
+    "reggie-server": "./server.js"
+  },
+  "dependencies": {
+    "optimist": "0.3.4",
+    "restify": "1.4.4",
+    "mkdirp": "0.3.4",
+    "request": "2.11.1",
+    "npm": "1.1.61",
+    "tar": "0.1.13",
+    "rimraf": "2.0.2",
+    "semver": "1.0.14",
+    "pkginfo": "0.2.3",
+    "read-package-json": "0.1.5",
+    "async": "0.1.22"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "> 0.8"
+  }
+}
