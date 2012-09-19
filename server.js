@@ -99,7 +99,7 @@ server.get('/index', function (req, res) {
   res.send(data.index());
 });
 
-server.listen(8080, function() {
+server.listen(argv.port, function() {
   console.log('Reggie listening at %s', server.url);
 });
 
