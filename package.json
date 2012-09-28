@@ -2,14 +2,14 @@
   "author": "Mike Brevoort <mike@brevoort.com>",
   "name": "reggie",
   "description": "An experimental light weight alternative to a full blown npm registry",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "bin": {
     "reggie": "./client.js",
     "reggie-server": "./server.js"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/mbrevoort/node-reggie.git"
+    "url": "git://github.com/mbrevoort/node-reggie.git"
   },
   "dependencies": {
     "optimist": "0.3.4",
@@ -28,5 +28,8 @@
   "optionalDependencies": {},
   "engines": {
     "node": "> 0.6"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
