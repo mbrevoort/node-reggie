@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/mbevoort/node-reggie.git"
+    "url": "http://github.com/mbrevoort/node-reggie.git"
   },
   "dependencies": {
     "optimist": "0.3.4",
