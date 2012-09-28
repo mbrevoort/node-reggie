@@ -99,6 +99,13 @@ server.get('/index', function (req, res) {
   res.send(data.index());
 });
 
+server.get('/info/:name', function (req, res) {
+  var name = req.params.name;  
+  var meta = data.packageMeta(name);
+  if (!meta) return res.send(404);
+  else return res.send(meta);
+});
+
 server.listen(argv.port, function() {
   console.log('Reggie listening at %s', server.url);
 });
