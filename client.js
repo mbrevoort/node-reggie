@@ -19,7 +19,19 @@ if (process.argv[2] === 'publish') {
       var version = packagejson.version
       var packageFile = name + '-' + version + '.tgz';
       var packageUrl = rootUrl + '/package/' + name + '/' + version;
-      fs.createReadStream(packageFile).pipe(request.put(packageUrl, function (err, resp, body) {
+      
+      var http = {
+          url: packageUrl
+      };
+            
+      var useAuth = npm.config.get("_auth") ? true : false;
+      console.log('Using auth ' + useAuth);
+      if(useAuth){
+        var auth = npm.config.get("_auth");
+        http.headers.authorization = "Basic " + auth;
+      }
+      
+      fs.createReadStream(packageFile).pipe(request.put(http, function (err, resp, body) {
         if (err) throw err;
         if (resp.statusCode === 200) {
           console.error('successfully published version ' + version + ' of ' + name + ': ' + packageUrl);
