@@ -49,12 +49,12 @@ Or globally (with data at ~/reggie):
 
 If installed globally, from within the root directory of an NPM module:
 
-	reggie publish http://<host:port>
-	reggie publish http://127.0.0.1:8080
+	reggie -u http://<host:port> publish 
+	reggie -u http://127.0.0.1:8080 publish 
 
 The Reggie client just `npm packs` your module and `PUT`s it to `http://<host:post>/package/:name/:version`.
 
-## Installing from Reggie
+## Resolving Packages from Reggie
 
 Whether you do `npm install` from the shell or resolve the package within the `dependencies` of 
 a `package.json`, you specify the dependency as a tarball URL.
@@ -77,6 +77,7 @@ In a `package.json`:
 	http://<host:port>/package/foo/1.0
 	http://<host:port>/package/foo/1
 	http://<host:port>/package/foo/x
+	http://<host:port>/package/foo/latest
 
 
 ### Ranges
