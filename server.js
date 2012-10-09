@@ -92,6 +92,8 @@ server.get('/versions/:name', function (req, res) {
 server.get('/package/:name/:range', function (req, res, next) {
   var name = req.params.name;
   var range = req.params.range;
+  if (range === 'latest') 
+    range = 'x.x.x';
   returnPackageByRange(name, range, res);
 });
 
@@ -157,6 +159,10 @@ function returnPackageByRange (name, range, res) {
   if (!version) { 
     return res.send(404) 
   }
+
+  var filename = name + '-' + version + '.tgz';
+  res.contentType = 'application/x-compressed';
+  res.header( "Content-Disposition", "filename=" + filename );
 
   data.openPackageStream(name, version, function (err, stream) {
     if (err) {
