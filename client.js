@@ -6,7 +6,6 @@ var fs = require('fs')
   , pkginfo = require('pkginfo')(module)
   , request = require('request')
   , optimist = require('optimist')
-  , prettyjson = require('prettyjson');
   ;
 
 var argv = optimist
