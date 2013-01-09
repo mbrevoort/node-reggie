@@ -113,6 +113,9 @@ Returns JSON array of known versions for a particular module name:
 
 	GET http://<host:port>/versions/:name
 
+Delete a package:
+
+	DELETE http://<host:port>/package/:name/:version
 
 # What's Next?
 
