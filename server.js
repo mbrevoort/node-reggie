@@ -82,7 +82,20 @@ server.put('/package/:name/:version', function (req, res, next) {
       res.send(err, 500);
     });
 
-});  
+});
+
+server.del('/package/:name/:version', function (req, res, next) {
+  var name = req.params.name;
+  var version = req.params.version;
+
+  data.deletePackage(name, version, function (err) {
+    if (err) {
+      console.error("Error deleting package " + name + "@" + version + ": " + (err.message || err));
+      return res.send(err, 500);
+    }
+    res.send(200);
+  });
+});
 
 server.get('/versions/:name', function (req, res) {
   var name = req.params.name;
