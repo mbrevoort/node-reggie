@@ -22,7 +22,8 @@
     "semver": "~1.0.14",
     "pkginfo": "~0.2.3",
     "read-package-json": "~0.1.5",
-    "async": "~0.1.22"
+    "async": "~0.1.22",
+    "sha": "~1.0.1"
   },
   "devDependencies": {},
   "optionalDependencies": {},
