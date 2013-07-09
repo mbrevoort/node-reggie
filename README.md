@@ -16,6 +16,7 @@ Reggie is currently an experiment. It currently supports:
 * supports basic semver wildcards (1.1.x) and ranges
 * a few basic routes to see what's registered
 * flat file storage that's simple to back-up and restore
+* [NEW] subset of NPM registry protocol (allowing `npm` to talk to node-reggie)
 
 Here's what it doesn't do yet:
 
@@ -26,7 +27,7 @@ Here's what it doesn't do yet:
 Here's what it will never do
 
 * authentication on package installs (GET /package/:name/:range)
-* be API compatible with a proper NPM registry
+* be fully API compatible with a proper NPM registry
 
 Also, there aren't any tests yet. I know, I know, but this is an experiment... bear with me.
 
@@ -98,6 +99,7 @@ You can see the available options with `reggie-server -h`
 
 	-d, --data  Directory to store Reggie's data  [default: <cwd>/data]
 	-p, --port  Reggie's a good listener. What port should I listen on?  [default: 8080]
+	-u, --url   URL where `npm` can access registry (usually http://{hostname}:{port}/)
 
 
 When Reggie starts up, it will reparse all of the packages in it's data directory and reload it's metadata. So this means you can seed Reggie with a bunch of NPM module tarballs if you want by copying them to `<--data>/packages`. With many modules, Reggie will be slow to start-up. I expect this to be optimized in the future. Also in the future may be auto detection of new modules if they are simply copied into the packages directory.
@@ -116,6 +118,28 @@ Returns JSON array of known versions for a particular module name:
 Delete a package:
 
 	DELETE http://<host:port>/package/:name/:version
+
+## Using Reggie with `npm` client
+
+Reggie implements a subset of npm registry API to support basic operations
+like publish, search, show and download.
+
+Usage:
+
+	# in my-private-pkg
+	npm --registry=http://reggie-url/ publish
+
+	# in application
+	npm --registry=http://reggie-url/ search my-private-pkg
+	npm --registry=http://reggie-url/ install my-private-pkg
+
+Unfortunately `npm` client does not really support multiple registries
+(e.g. private and public), therefore you can't mix public and private
+packages in package.json dependencies.
+
+There are plans to add multi-registry support to `npm`. Until then you
+have to use a different method for maintaining your dependencies
+(e.g. as described above).
 
 # What's Next?
 
