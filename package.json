@@ -2,7 +2,7 @@
   "author": "Mike Brevoort <mike@brevoort.com>",
   "name": "reggie",
   "description": "An experimental light weight alternative to a full blown npm registry",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "bin": {
     "reggie": "./client.js",
     "reggie-server": "./server.js"
