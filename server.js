@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var restify = require('restify')
+  , Cookies = require('cookies')
   , fs = require('fs')
   , tar = require('tar')
   , zlib = require('zlib')
@@ -287,7 +288,12 @@ server.put(fix('/-/user/:user'), function(req, res) {
 });
 
 server.post('/_session', function(req, res) {
-  // TODO - verify login & password and set auth cookie?
+  // TODO - verify login & password
+
+  var cookies = new Cookies(req, res);
+  // refresh auth session in the client
+  cookies.set('AuthSession', cookies.get('AuthSession'));
+
   res.json(200, {
     ok: true,
     name: req.body.name,
@@ -295,14 +301,15 @@ server.post('/_session', function(req, res) {
   });
 });
 
-/* Middleware for logging all incoming requests
+/* Middleware for logging all incoming requests *
 server.pre(function (req, res, next) {
-  console.log('%s %s', req.method, req.url);
+  console.log('< %s %s', req.method, req.url);
   console.log(JSON.stringify(req.headers, null, 2));
+  console.log('> %s %s', res.statusCode, res.statusText);
   console.log();
   next();
 });
-*/
+/**/
 
 server.listen(argv.port, function() {
   console.log('Reggie listening at %s', server.url);
