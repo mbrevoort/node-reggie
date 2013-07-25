@@ -124,10 +124,21 @@ Delete a package:
 Reggie implements a subset of npm registry API to support basic operations
 like publish, search, show and download.
 
-Usage:
+### Publishing
 
-	# in my-private-pkg
-	npm --registry=http://reggie-url/ publish
+There are two ways how to publish a module to a different registry.
+
+* The safest way is to edit your package.json file and add a following line:
+
+		"publishConfig": { "registry": "http://reggie-url/" }
+
+  This way the package will be always published to our private repository.
+
+* The alternative option is to specify the registry URL on command-line:
+
+		npm --registry=http://reggie-url/ publish
+
+### Installing
 
 	# in application
 	npm --registry=http://reggie-url/ search my-private-pkg
@@ -139,7 +150,7 @@ packages in package.json dependencies.
 
 There are plans to add multi-registry support to `npm`. Until then you
 have to use a different method for maintaining your dependencies
-(e.g. as described above).
+(e.g. as described previous sections).
 
 # What's Next?
 
