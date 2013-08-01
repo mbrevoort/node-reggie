@@ -291,8 +291,8 @@ server.post('/_session', function(req, res) {
   // TODO - verify login & password
 
   var cookies = new Cookies(req, res);
-  // refresh auth session in the client
-  cookies.set('AuthSession', cookies.get('AuthSession'));
+  // refresh auth session in the client or set a new 'dummy' one
+  cookies.set('AuthSession', cookies.get('AuthSession') || 'dummy');
 
   res.json(200, {
     ok: true,
