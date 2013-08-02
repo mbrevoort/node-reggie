@@ -9,21 +9,22 @@ var ini = require('ini');
 exports.SANDBOX = path.resolve(__dirname, 'sandbox');
 exports.reggieUrl = undefined;
 
-exports.givenDummyPackage = givenDummyPackage;
+exports.givenAPackage = givenAPackage;
 exports.runNpmInDirectory = runNpmInDirectory;
 exports.startReggieServer = startReggieServer;
 exports.stopReggieServer = stopReggieServer;
 exports.rmtreeSync = rmtreeSync;
 exports.prepareSandbox = prepareSandbox;
+exports.anExpiredAuthToken = anExpiredAuthToken;
 
 /**
  * Create a dummy package and return the folder where the package was created.
  * @param {Object} packageJson Optional package description
- * @returns {string}
+ * @returns {{folder,name,version,nameAtVersion}}
  */
-function givenDummyPackage(packageJson) {
+function givenAPackage(packageJson) {
   var defaults = {
-    "name": "test-module",
+    "name": "test-module-" + (++packageNameCounter),
     "version": "0.1.0",
     "description": "a test module",
     "main": "index.js",
@@ -43,8 +44,15 @@ function givenDummyPackage(packageJson) {
   var indexFile = path.join(pkgDir, 'index.js');
   fs.writeFileSync(indexFile, '// empty');
 
-  return pkgDir;
+  return {
+    folder: pkgDir,
+    name: packageJson.name,
+    version: packageJson.version,
+    nameAtVersion: packageJson.name + '@' + packageJson.version
+  };
 }
+
+var packageNameCounter = 0;
 
 /**
  * Run `npm` in `dir` with a given user `config` and command-line `args`.
@@ -157,3 +165,13 @@ function rmtreeSync(dir) {
   fs.rmdirSync(dir);
 }
 
+function anExpiredAuthToken() {
+  return {
+    AuthSession : 'dummy',
+    version : 1,
+    expires : Date.now() - 60000,
+    path : '/',
+    httponly : true
+
+  };
+}
