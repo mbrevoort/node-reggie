@@ -141,6 +141,8 @@ server.get('/info/:name', function (req, res) {
 // ----------------------------------------------------------------------------
 
 server.put('/:name', function (req, res) {
+  // TODO verify that req.params.name is the same as req.body.name
+  data.updatePackageMetadata(req.body);
   res.json(200, { ok: true });
 });
 

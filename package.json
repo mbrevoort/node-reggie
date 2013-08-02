@@ -26,12 +26,18 @@
     "sha": "~1.0.1",
     "cookies": "~0.3.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "latest",
+    "chai": "latest",
+    "debug": "~0.7.2",
+    "ini": "~1.1.0"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "> 0.6"
   },
   "scripts": {
+    "test": "mocha",
     "start": "node server.js"
   }
 }
