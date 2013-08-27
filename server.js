@@ -140,6 +140,10 @@ server.get('/info/:name', function (req, res) {
 // NPM registry protocol
 // ----------------------------------------------------------------------------
 
+
+server.get('/-/all/since', listAction);
+server.get('/-/all', listAction);
+
 server.put('/:name', function (req, res) {
   // TODO verify that req.params.name is the same as req.body.name
   data.updatePackageMetadata(req.body);
@@ -231,9 +235,6 @@ function listAction(req, res) {
     };
   }
 }
-
-server.get('/-/all/since', listAction);
-server.get('/-/all', listAction);
 
 server.put('/:name/-/:filename/-rev/:rev', function (req, res) {
   var filename = req.params.filename;

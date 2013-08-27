@@ -42,6 +42,37 @@ describe('reggie npm server', function() {
       expectPackageWasPublished(done, pkg.nameAtVersion)
     );
   });
+
+  it('searches for a package that does not exist', function(done) {
+    // This test verifies that searching for a package which does not
+    // exist returns no results.
+    var pkg = helpers.givenAPackage();
+
+    helpers.runNpmInDirectory(
+      pkg.folder,
+      ['search', pkg.nameAtVersion],
+      expectPackageNotFoundInSearch(done, pkg.nameAtVersion)
+    );
+  });
+
+  it('searches for a package that is already published', function(done) {
+    // This test verifies that searching for a package which is 
+    // published return the correct search result.
+    var pkg = helpers.givenAPackage();
+
+    helpers.runNpmInDirectory(
+      pkg.folder,
+      ['publish'],
+      function(err, stdout, stderr) {
+        if (err) done(err);
+        helpers.runNpmInDirectory(
+          pkg.folder,
+          ['search', pkg.name],
+          expectPackageFoundInSearch(done, pkg.name)
+        );
+      }
+    );
+  });
 });
 
 function expectPackageWasPublished(done, nameAtVersion) {
@@ -49,6 +80,22 @@ function expectPackageWasPublished(done, nameAtVersion) {
     if (err) done(err);
     debug(stderr.toString());
     expect(stdout.toString().trim()).to.equal('+ ' + nameAtVersion);
+    done();
+  };
+}
+
+function expectPackageNotFoundInSearch(done, nameAtVersion) {
+  return function(err, stdout, stderr) {
+    if (err) done(err);
+    expect(stdout.toString().trim()).to.have.string('No match found for "' + nameAtVersion + '"');
+    done();
+  };
+}
+
+function expectPackageFoundInSearch(done, nameAtVersion) {
+  return function(err, stdout, stderr) {
+    if (err) done(err);
+    expect(stdout.toString().trim()).to.not.have.string('No match found for "' + nameAtVersion + '"');
     done();
   };
 }
