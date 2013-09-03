@@ -30,14 +30,15 @@
     "mocha": "latest",
     "chai": "latest",
     "debug": "~0.7.2",
-    "ini": "~1.1.0"
+    "ini": "~1.1.0",
+    "rewire": "~1.1.3"
   },
   "optionalDependencies": {},
   "engines": {
     "node": "> 0.6"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha -R spec",
     "start": "node server.js"
   }
 }
