@@ -1,4 +1,4 @@
-var debug = require('debug')('reggie');
+var debug = require('debug')('test');
 var expect = require('chai').expect;
 
 var helpers = require('./helpers.js');
@@ -48,6 +48,10 @@ describe('reggie npm server', function() {
     // exist returns no results.
     var pkg = helpers.givenAPackage();
 
+    // Ensure there are no previous search results in the cache
+    // to prevent npm from using stale data.
+    helpers.cleanNpmCache();
+
     helpers.runNpmInDirectory(
       pkg.folder,
       ['search', pkg.nameAtVersion],
@@ -59,6 +63,10 @@ describe('reggie npm server', function() {
     // This test verifies that searching for a package which is
     // published return the correct search result.
     var pkg = helpers.givenAPackage();
+
+    // Ensure there are no previous search results in the cache
+    // to prevent npm from using stale data.
+    helpers.cleanNpmCache();
 
     helpers.runNpmInDirectory(
       pkg.folder,
@@ -78,8 +86,7 @@ describe('reggie npm server', function() {
 function expectPackageWasPublished(done, nameAtVersion) {
   return function(err, stdout, stderr) {
     if (err) done(err);
-    debug(stderr.toString());
-    expect(stdout.toString().trim()).to.equal('+ ' + nameAtVersion);
+    expect(stdout.trim()).to.equal('+ ' + nameAtVersion);
     done();
   };
 }
@@ -87,7 +94,7 @@ function expectPackageWasPublished(done, nameAtVersion) {
 function expectPackageNotFoundInSearch(done, nameAtVersion) {
   return function(err, stdout, stderr) {
     if (err) done(err);
-    expect(stdout.toString().trim()).to.have.string('No match found for "' + nameAtVersion + '"');
+    expect(stdout.trim()).to.have.string('No match found for "' + nameAtVersion + '"');
     done();
   };
 }
@@ -95,7 +102,7 @@ function expectPackageNotFoundInSearch(done, nameAtVersion) {
 function expectPackageFoundInSearch(done, nameAtVersion) {
   return function(err, stdout, stderr) {
     if (err) done(err);
-    expect(stdout.toString().trim()).to.not.have.string('No match found for "' + nameAtVersion + '"');
+    expect(stdout.trim()).to.not.have.string('No match found for "' + nameAtVersion + '"');
     done();
   };
 }
