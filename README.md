@@ -65,7 +65,7 @@ The Reggie client just `npm packs` your module and `PUT`s it to `http://<host:po
 Whether you do `npm install` from the shell or resolve the package within the `dependencies` of 
 a `package.json`, you specify the dependency as a tarball URL.
 
-### A sepecific version
+### A specific version
 
 	npm install http://<host:port>/package/<name>/<version>
 	npm install http://<host:port>/package/foo/1.0.0
