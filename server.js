@@ -210,9 +210,9 @@ function listAction(req, res) {
   res.json(200, result);
 
   function getPackageInfo(packageName) {
-    var versions =  data.whichVersions(packageName).sort();
+    var versions =  data.whichVersions(packageName).sort(semver.compare);
     var meta = data.packageMeta(packageName);
-    var lastVersion = versions[versions.length-1];
+    var lastVersion = semver.maxSatisfying(versions, '*');
     var versionsData = {};
     versions.forEach(function(v) {
       versionsData[v] = 'latest';
