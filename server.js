@@ -159,7 +159,7 @@ server.get('/:name', function (req, res) {
   var meta = data.packageMeta(packageName);
   if (!meta) return notFound(res);
 
-  var versions =  data.whichVersions(packageName).sort();
+  var versions =  data.whichVersions(packageName).sort(semver.compare);
   var versionsData = {};
   var times = {};
   versions.forEach(function(v) {
@@ -173,7 +173,7 @@ server.get('/:name', function (req, res) {
     name: meta.name,
     description: meta.description,
     'dist-tags': {
-      latest: versions[versions.length-1]
+      latest: semver.maxSatisfying(versions, '*')
     },
     versions: versionsData,
     maintainers: [],
