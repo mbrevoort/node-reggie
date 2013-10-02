@@ -30,7 +30,9 @@
     "mocha": "latest",
     "chai": "latest",
     "debug": "~0.7.2",
-    "ini": "~1.1.0"
+    "ini": "~1.1.0",
+    "proxyquire": "~0.5.1",
+    "sinon": "~1.7.3"
   },
   "optionalDependencies": {},
   "engines": {
