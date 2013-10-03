@@ -159,10 +159,10 @@ server.get('/:name', function (req, res) {
   var meta = data.packageMeta(packageName);
   if (!meta) return notFound(res);
 
-  var versions =  data.whichVersions(packageName).sort(semver.compare);
+  var versions =  getPackageVersions(packageName);
   var versionsData = {};
   var times = {};
-  versions.forEach(function(v) {
+  versions.all.forEach(function(v) {
     versionsData[v] = meta.versions[v].data;
     times[v] = meta.versions[v].time;
   });
@@ -173,7 +173,7 @@ server.get('/:name', function (req, res) {
     name: meta.name,
     description: meta.description,
     'dist-tags': {
-      latest: semver.maxSatisfying(versions, '*')
+      latest: versions.latest
     },
     versions: versionsData,
     maintainers: [],
@@ -210,11 +210,10 @@ function listAction(req, res) {
   res.json(200, result);
 
   function getPackageInfo(packageName) {
-    var versions =  data.whichVersions(packageName).sort(semver.compare);
+    var versions =  getPackageVersions(packageName);
     var meta = data.packageMeta(packageName);
-    var lastVersion = semver.maxSatisfying(versions, '*');
     var versionsData = {};
-    versions.forEach(function(v) {
+    versions.all.forEach(function(v) {
       versionsData[v] = 'latest';
     });
 
@@ -223,17 +222,25 @@ function listAction(req, res) {
       name: meta.name,
       description: meta.description,
       'dist-tags': {
-        latest: lastVersion
+        latest: versions.latest
       },
       versions: versionsData,
       maintainers: [],
       author: meta.author,
       repository: meta.repository,
       time: {
-        modified: meta.versions[lastVersion].time
+        modified: meta.versions[versions.latest].time
       }
     };
   }
+}
+
+function getPackageVersions(packageName) {
+  var versions = data.whichVersions(packageName).sort(semver.compare);
+  return {
+    all: versions,
+    latest: semver.maxSatisfying(versions, '*')
+  };
 }
 
 server.put('/:name/-/:filename/-rev/:rev', function (req, res) {
