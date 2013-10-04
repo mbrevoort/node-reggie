@@ -72,12 +72,16 @@ describe('reggie npm server', function() {
       pkg.folder,
       ['publish'],
       function(err, stdout, stderr) {
-        if (err) done(err);
-        helpers.runNpmInDirectory(
-          pkg.folder,
-          ['search', pkg.name],
-          expectPackageFoundInSearch(done, pkg.name)
-        );
+        if (err) return done(err);
+        // Give Reggie server some time to process the published package,
+        // because the response is sent before the processing is done
+        setTimeout(function() {
+          helpers.runNpmInDirectory(
+            pkg.folder,
+            ['search', pkg.name],
+            expectPackageFoundInSearch(done, pkg.name)
+          );
+        }, 200);
       }
     );
   });
