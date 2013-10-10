@@ -20,5 +20,13 @@ describe('Data', function() {
         done();
       });
     });
+
+    it('throws unknown package error when package does not exist', function() {
+      var registryData = testDataBuilder.givenData();
+
+      return registryData.deletePackage('unknown-pkg', '0.0.1', function(err) {
+        expect(err.message).to.eql('unknown-pkg package not found');
+      });
+    });
   });
 });
