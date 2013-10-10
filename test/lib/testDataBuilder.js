@@ -8,6 +8,10 @@ var proxyquire = require('proxyquire'),
       }
     });
 
+function givenData() {
+  return new Data();
+}
+
 function givenDataWithSinglePackageVersion(name, version) {
   if (name === undefined) name = 'test-package';
   if (version === undefined) version = 'test-version';
@@ -33,5 +37,6 @@ function givenDataWithSinglePackageVersion(name, version) {
 }
 
 module.exports = {
-  givenDataWithSinglePackageVersion: givenDataWithSinglePackageVersion
+  givenDataWithSinglePackageVersion: givenDataWithSinglePackageVersion,
+  givenData: givenData
 };

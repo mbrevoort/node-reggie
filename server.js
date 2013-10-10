@@ -106,7 +106,7 @@ server.del('/package/:name/:version', function (req, res, next) {
   data.deletePackage(name, version, function (err) {
     if (err) {
       console.error("Error deleting package " + name + "@" + version + ": " + (err.message || err));
-      return res.send(err, 500);
+      return res.send(500, err);
     }
     res.send(200);
   });
