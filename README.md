@@ -104,6 +104,7 @@ You can see the available options with `reggie-server -h`
 
 	-d, --data  Directory to store Reggie's data  [default: <cwd>/data]
 	-p, --port  Reggie's a good listener. What port should I listen on?  [default: 8080]
+	-s, --source  Which kind of connections shall Reggie accept? [default: '0.0.0.0']
 	-u, --url   URL where `npm` can access registry (usually http://{hostname}:{port}/)
 
 

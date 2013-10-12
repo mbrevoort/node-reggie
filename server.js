@@ -19,13 +19,15 @@ var restify = require('restify')
 var argv = optimist
     .usage('Reggie wants to serve your packages!\nUsage: $0')
     //.demand(['d'])
-    .default({ d : path.join(process.cwd(), 'data'), p : 8080 })
+    .default({ d : path.join(process.cwd(), 'data'), p : 8080, s: '0.0.0.0' })
     .alias('d', 'data')
     .alias('p', 'port')
+    .alias('s', 'source')
     .alias('u', 'url')
     .alias('h', 'help')
     .describe('d', 'Directory to store Reggie\'s data')
     .describe('p', 'Reggie\'s a good listener. What port should I listen on?')
+    .describe('s', 'Which kind of connections shall Reggie accept?')
     .describe('u', 'URL where `npm` can access registry (usually http://{hostname}:{port}/)')
     .argv;
 
@@ -314,7 +316,7 @@ server.pre(function (req, res, next) {
 });
 /**/
 
-server.listen(argv.port, function() {
+server.listen(argv.port, argv.source, function() {
   console.log('Reggie listening at %s', server.url);
   console.log('NPM registry URL:\n  %s\n', config.registryUrl);
 });
