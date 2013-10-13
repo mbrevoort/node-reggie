@@ -21,16 +21,14 @@ describe('Data', function() {
       });
     });
 
-    describe('an unpublished package', function() {
-      it('reports that package does not exist', function() {
-        var registryData = testDataBuilder.givenData();
+    it('reports error when package does not exist', function() {
+      var registryData = testDataBuilder.givenData();
 
-        var deletePackage = function() {
-          registryData.deletePackage('unknown-pkg', '0.0.1', function() {});
-        };
+      var deletePackage = function() {
+        registryData.deletePackage('unknown-pkg', '0.0.1', function() {});
+      };
 
-        expect(deletePackage).to.not.throw(TypeError);
-      });
+      expect(deletePackage).to.not.throw(TypeError);
     });
   });
 });
