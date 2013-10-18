@@ -161,9 +161,27 @@ have to use a different method for maintaining your dependencies
 
 I would love your feedback! Like I said in the beginning, this is somewhat of an experiment at this point but I'm optimistic that Reggie could materialize into a useful lightweight alternative to servicing up private packages to NPM. Create issues in this repo or hit me up on Twitter @mbrevoort.
 
+# Contributing
+
+We would love your contribution! We're trying to keep things tidy so there are a few simple guidelines to help with that.
+Also, if you are considering a complex change or feature, we encourage you to open an issue first to discuss the approach
+before putting a lot of effort into a big pull request.
+
+1. Please squash your commits to a single commit
+
+2. Commit message in the  common 50/72 format. First line is 50 characters or less and summarizes the commit, then a blank line, and the emaining text should be wrapped at 72 characters and provide longer/additional information. Also note that we try to use past tense in commit messages.
+
+Example:
+
+	Fixed "npm search <packagename>"
+
+	Moved the registration of /-/all routes higher so that the are
+	not handled by /:name/:version
+
+
 # License
 
-Copyright (c) 2012 Mike Brevoort
+Copyright (c) 2012-2013 Mike Brevoort
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
