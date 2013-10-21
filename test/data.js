@@ -21,14 +21,12 @@ describe('Data', function() {
       });
     });
 
-    it('reports error when package does not exist', function() {
+    it('throws unknown package error when package does not exist', function() {
       var registryData = testDataBuilder.givenData();
 
-      var deletePackage = function() {
-        registryData.deletePackage('unknown-pkg', '0.0.1', function() {});
-      };
-
-      expect(deletePackage).to.not.throw(TypeError);
+      return registryData.deletePackage('unknown-pkg', '0.0.1', function(err) {
+        expect(err.message).to.eql('unknown-pkg package not found');
+      });
     });
   });
 });
