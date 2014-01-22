@@ -160,10 +160,9 @@ function notFound(res) {
   return res.json(404, { error: "not_found", reason: "document not found" });
 }
 
-server.get('/:name', function (req, res) {
-  var packageName = req.params.name;
+function getPackageData(packageName) {
   var meta = data.packageMeta(packageName);
-  if (!meta) return notFound(res);
+  if (!meta) return false;
 
   var versions =  data.whichVersions(packageName).sort();
   var versionsData = {};
@@ -187,7 +186,31 @@ server.get('/:name', function (req, res) {
     repository: meta.repository,
     time: times
   };
+
+  return result;
+};
+
+server.get('/:name', function (req, res) {
+  var packageName = req.params.name;
+
+  var result = getPackageData(packageName);
+
+  if (result === false) return notFound(res);
+
   res.json(200, result);
+});
+
+server.get('/:name/latest', function (req, res) {
+  var packageName = req.params.name;
+
+  var data = getPackageData(packageName);
+  if (!data) return notFound(res);
+
+  var version = data["dist-tags"]["latest"];
+  var versionMeta = data.versions[version];
+  if (!versionMeta) return notFound(res);
+
+  res.json(200, versionMeta);
 });
 
 server.get('/:name/:version', function (req, res) {
