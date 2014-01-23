@@ -86,6 +86,49 @@ describe('reggie npm server', function() {
       }
     );
   });
+
+  it('installs and tries an updates for a package that has been published', function(done) {
+    // This test verifies that searching for a package which is
+    // published return the correct search result.
+    var pkg = helpers.givenAPackage();
+
+    // Ensure there are no previous search results in the cache
+    // to prevent npm from using stale data.
+    helpers.cleanNpmCache();
+
+    helpers.runNpmInDirectory(
+      pkg.folder,
+      ['publish'],
+      function(err, stdout, stderr) {
+        if (err) return done(err);
+        // Give Reggie server some time to process the published package,
+        // because the response is sent before the processing is done
+        setTimeout(function() {
+          var installDir = helpers.givenAnInstallDir(pkg.name);
+
+          helpers.runNpmInDirectory(
+            installDir,
+            ['install', pkg.name],
+            function(err, stdout, stderr) {
+              if (err) return done(err);
+              expect(stdout.trim()).to.contain(pkg.nameAtVersion);
+
+              helpers.runNpmInDirectory(
+                installDir,
+                ['update', pkg.name],
+                function(err, stdout, stderr) {
+                  if (err) return done(err);
+                  //since there was no error npm exited with a valid return code and didn't fail
+                  done();
+                }
+              );
+
+            }
+          );
+        }, 200);
+      }
+    );
+  });
 });
 
 function expectPackageWasPublished(done, nameAtVersion) {

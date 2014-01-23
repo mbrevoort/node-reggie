@@ -14,6 +14,7 @@ exports.reggieUrl = undefined;
 var NPM_CACHE = path.resolve(exports.SANDBOX, '_npm_cache');
 
 exports.givenAPackage = givenAPackage;
+exports.givenAnInstallDir = givenAnInstallDir;
 exports.runNpmInDirectory = runNpmInDirectory;
 exports.startReggieServer = startReggieServer;
 exports.stopReggieServer = stopReggieServer;
@@ -56,6 +57,18 @@ function givenAPackage(packageJson) {
     nameAtVersion: packageJson.name + '@' + packageJson.version
   };
 }
+
+/**
+ * Creates an empty directory with a package.json where npm install can be run.
+ * @return {string} The empty directory path
+ */
+function givenAnInstallDir(packageName) {
+  var dir = path.join(exports.SANDBOX, "install");
+  rmtreeSync(dir);
+  fs.mkdirSync(dir);
+  fs.writeFileSync(path.join(dir, "package.json"), '{"name":"testInstall'+packageName+'", "version": "0.0.0", "dependencies": {"'+packageName+'": "*"}}');
+  return dir;
+};
 
 var packageNameCounter = 0;
 
