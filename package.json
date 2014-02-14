@@ -31,7 +31,8 @@
     "chai": "latest",
     "debug": "~0.7.2",
     "ini": "~1.1.0",
-    "proxyquire": "~0.5.1"
+    "proxyquire": "~0.5.1",
+    "supertest": "~0.9.0"
   },
   "optionalDependencies": {},
   "engines": {
