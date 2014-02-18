@@ -2,7 +2,7 @@
   "author": "Mike Brevoort <mike@brevoort.com>",
   "name": "reggie",
   "description": "An experimental light weight alternative to a full blown npm registry",
-  "version": "0.2.0",
+  "version": "0.2.0-FINN",
   "bin": {
     "reggie": "./client.js",
     "reggie-server": "./server.js"
@@ -31,7 +31,8 @@
     "chai": "latest",
     "debug": "~0.7.2",
     "ini": "~1.1.0",
-    "proxyquire": "~0.5.1"
+    "proxyquire": "~0.5.1",
+    "supertest": "~0.9.0"
   },
   "optionalDependencies": {},
   "engines": {
