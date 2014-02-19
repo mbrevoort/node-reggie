@@ -275,9 +275,16 @@ server.put('/:name/:version/-tag/:tag', function(req, res) {
 });
 
 server.get('/:name/-/:file', function(req, res) {
-  res.writeHead(200, { 'Content-Type': 'application/octet-stream'});
-  fs.createReadStream(path.join(data._packagesDir, req.params.file))
-    .pipe(res);
+  var filePath = path.join(data._packagesDir, req.params.file);
+  fs.exists(filePath, function(exists){
+    if (exists == true){
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/octet-stream');
+      fs.createReadStream(filePath).pipe(res);
+    } else {
+      res.send(404);
+    }
+  });
 });
 
 
