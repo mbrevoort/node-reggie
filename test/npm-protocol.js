@@ -86,7 +86,29 @@ describe('reggie npm server', function() {
       }
     );
   });
+
+  it('publishes a package with just name', function(done){
+    var pkg = helpers.givenAPackage();
+    helpers.cleanNpmCache();
+    helpers.runNpmInDirectory(
+      pkg.folder,
+      ['publish'],
+      function(err, stdout, stderr){
+        if (err) return done(err);
+        setTimeout(function(){
+          helpers.runNpmInDirectory(
+            pkg.folder,
+            ['search', pkg.name],
+            expectPackageFoundInSearch(done, pkg.nameAtVersion)
+          );
+        }, 200);
+      }
+    );
+  });
+
 });
+
+ 
 
 function expectPackageWasPublished(done, nameAtVersion) {
   return function(err, stdout, stderr) {

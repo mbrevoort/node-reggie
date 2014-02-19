@@ -8,7 +8,7 @@ describe('GET /:name/-/:file', function(done) {
 
 	it('should respond with 404 when file does not exist', function(done) {
 		request(helpers.reggieUrl)
-		.get('/requirejs/-/requirejs-2.11.tgz')
-		.expect(404, done);
+			.get('/requirejs/-/requirejs-2.11.tgz')
+			.expect(404, done);
 	});
 });

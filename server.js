@@ -82,27 +82,12 @@ server.get('/', function (req, res) {
 server.put('/package/:name/:version', function (req, res, next) {
   var name = req.params.name;
   var version = req.params.version;
-  var rand = Math.floor(Math.random()*4294967296).toString(36);
-  var tempPackageFile = path.join(argv.data, "temp", rand + name + "-" + version + ".tgz");
-
-  // write the tar file. Don't combine the streamed gzip and untar on upload just yet...
-  fs.writeFile(tempPackageFile, req.body, function(err) {
-    if (err) {
-      console.error("Unexpected error when accepting package upload: " + (err.message || err));
-      return res.send(500, err);
-    }
-
-    data.loadPackage(tempPackageFile, name, version, function (err) {
-      if (err) {
-        console.error("Error loading package from upload: " + (err.message || err));
-        fs.unlink(tempPackageFile);
-        return res.send(500, err);
-      }
-
-      fs.unlink(tempPackageFile);
+  registerArfifact(name, version, req.body, res, 
+    function(res){
       res.send(200);
+    }, function(err, res){
+      return res.send(500, err);
     });
-  });
 });
 
 server.del('/package/:name/:version', function (req, res, next) {
@@ -151,9 +136,12 @@ server.get('/-/all/since', listAction);
 server.get('/-/all', listAction);
 
 server.put('/:name', function (req, res) {
-  // TODO verify that req.params.name is the same as req.body.name
-  data.updatePackageMetadata(req.body);
-  res.json(200, { ok: true });
+  var version = Object.keys(req.params.versions);
+  var versionId = version[0];
+  var body = req.params._attachments[req.params.name + '-' + version + '.tgz'].data;
+  registerArfifact(req.params.name, versionId, new Buffer(body, 'base64'), res, function(){
+    return res.json(200, {ok: true});
+  });
 });
 
 function notFound(res) {
@@ -242,26 +230,38 @@ function listAction(req, res) {
   }
 }
 
-server.put('/:name/-/:filename/-rev/:rev', function (req, res) {
-  var filename = req.params.filename;
+function registerArfifact(filename, version, body, res, sucessCallback, errorCallback){
   var rand = Math.floor(Math.random()*4294967296).toString(36);
   var tempPackageFile = path.join(argv.data, "temp", rand + '-' + filename);
-  fs.writeFile(tempPackageFile, req.body, function(err) {
+  fs.writeFile(tempPackageFile, body, function(err) {
     if (err) {
       console.log('Cannot save package to a temp file %s: %s', tempPackageFile, err.message);
+      if (errorCallback) {
+        return errorCallback(err, res);
+      }
       return res.json(500, { error: 'internal_server_error', reason: err.toString() });
     }
     data.loadPackage(tempPackageFile, function(err) {
       if (err) {
-        console.error('Error loading package from upload: ' + (err.message || err));
         fs.unlink(tempPackageFile);
+        if (errorCallback) {
+          return errorCallback(err, res);
+        }
         return res.json(400, { error: 'bad_request', reason: 'package file cannot be read'});
       }
-      return res.json(201, {
-        ok: true,
-        id: '-',
-        rev: '1-0'
-      });
+      return sucessCallback(res);
+    });
+  });  
+}
+
+server.put('/:name/-/:filename/-rev/:rev', function (req, res) {
+  console.log('********** /:name/-/:filename/-rev/:rev')
+  var filename = req.params.filename;
+  registerArfifact(filename, req.params.rev, req.body, res, function(){
+    return res.json(201, {
+      ok: true,
+      id: '-',
+      rev: '1-0'
     });
   });
 });
@@ -396,5 +396,3 @@ function returnPackageByRange (name, range, res) {
       });
   })
 }
-
-
