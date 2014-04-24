@@ -105,10 +105,7 @@ describe('reggie npm server', function() {
       }
     );
   });
-
 });
-
- 
 
 function expectPackageWasPublished(done, nameAtVersion) {
   return function(err, stdout, stderr) {
