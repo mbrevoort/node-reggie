@@ -39,7 +39,7 @@
     "node": "> 0.6"
   },
   "scripts": {
-    "test": "mocha -R spec",
+    "test": "mocha",
     "start": "node server.js"
   }
 }
