@@ -97,7 +97,7 @@ http://<host:port>/package/foo/latest
 
 #### Ranges
 
-By convention, Reggie understands URLs with `gt` (>), `gte` (>=), `lt' (<), and `lte` (<=), for example:
+By convention, Reggie understands URLs with `gt` (>), `gte` (>=), `lt` (<), and `lte` (<=), for example:
 
 ```text
 http://<host:port>/package/foo/lt/2.0              # less than 2.0
