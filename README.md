@@ -30,7 +30,7 @@ Here's what it doesn't do yet:
 
 Here's what it will never do
 
-* authentication on package installs (GET /package/:name/:range)
+* authentication on package installs (`GET /package/:name/:range`)
 * be fully API compatible with a proper NPM registry
 
 Also, there aren't any tests yet. I know, I know, but this is an experiment... bear with me.
@@ -47,7 +47,7 @@ $ npm install reggie
 $ ./node_modules/.bin/reggie-server
 ```
 
-Or globally (with data at ~/reggie):
+Or globally (with data at `~/.reggie`):
 
 ```bash
 $ npm install -g reggie
