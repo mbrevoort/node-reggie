@@ -9,7 +9,9 @@ var restify = require('restify')
   , rimraf = require('rimraf')
   , mkdirp = require('mkdirp')
   , semver = require('semver')
-  , optimist = require('optimist');
+  , optimist = require('optimist')
+  , express = require('express')
+  , bodyParser = require('body-parser');
 
 // ----------------------------------------------------------------------------
 // options parsing
@@ -71,9 +73,12 @@ function normalizeUrl(url) {
 // server wireup
 // ----------------------------------------------------------------------------
 
-var server = restify.createServer();
+//var server = restify.createServer();
+var server = express();
 
-server.use(restify.bodyParser());
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({extended: false}));
+
 
 server.get('/', function (req, res) {
   res.send('Reggie says hi')
